@@ -42,58 +42,74 @@ class Game
 	end
 	
 	def play_round
-			# get user input to hit or stand, regardless of case
+				# get user input to hit or stand, regardless of case
 		puts "(H)igher or (L)ower? Type H or L, then press Enter/Return"
 		user_choice = $stdin.gets.chomp.upcase
 
-		# user draws a card
-		if (user_choice == "H")
-			@dealer.draw
-		# any choice but (S)tand repeats the round
-		elsif (user_choice == "L")
-			@dealer.draw
-		else (user_choice	!= ["H", "L"])
-			puts "\nPlease make a choice."
-			play_round
+
+		play_round = 0
+		until play_round == 5
+	
+					# user draws a card
+					if (user_choice == "H")
+						@dealer.draw
+					# any choice but (S)tand repeats the round
+					elsif (user_choice == "L")
+						@dealer.draw
+					else (user_choice	!= ["H", "L"])
+						puts "\nPlease make a choice."
+						until play_round == 5	
+							play_round += 1
+					end
+			# show the draw results
 		end
-
-		# show the draw results
-		@dealer.show_hand
-		check_hand(user_choice)
-
+				@dealer.show_hand 
+				check_hand(user_choice)
+		
+		end
 		# return to play_game method
 	end
 	
+
 	def check_hand(user_choice)
 		# player totals and bust status are managed by user and dealer (player) objects
 		# user busted, set game over and reason
-		if @user.wrong == true
+		if @user_choice == "H" && (@dealer.total < dealer.draw)
 			@game_over = true
 			@game_over_reason = "#{@user.name} got it wrong, drink!"
 
-		elsif @user.right == true
-			@game_over = false
-			play_round
-				 if play_round == @dealer.draw(*5)
-				 @game_over = true
-				 @game_over_reason = "#{user.name} wins!"
-				 end 
+		elsif @user_choice == "L" && (@dealer.show_hand > dealer.draw)
+			@game_over = true
+			@game_over_reason = "#{@user.name} got it wrong, drink!"
+
+		elsif play_round
+			if play_round = player_wins
+			@game_over = true
+			@game_over_reason = "#{@user.name} wins!"
+			end
 		end			
 		
 		# return to play_hand method
 	end
 
-	def wrong
-		if @user_choice == "H" && (@dealer.draw.value < @dealer.show_hand.value)
-		elsif @user_choice == "L"  && (@dealer.draw.value > @dealder.show_hand.value)
-		end
-	end
-
-	def right
-		if @user_choice == "H" && (@dealer.draw.value > @dealer.show_hand.value)
-		elsif @user_choice == "L" && (@dealer.draw.value < @dealder.show_hand.value)
+	def player_wins
+		play_round = 0
+		until play_round == 5
+			play_round += 1
 		end
 	end 
+
+#	def wrong
+#		if @user_choice == "H" && (@dealer.draw.value < @dealer.show_hand.value)
+#		elsif @user_choice == "L"  && (@dealer.draw.value > @dealder.show_hand.value)
+#		end
+#	end
+#
+#	def right
+#		if @user_choice == "H" && (@dealer.draw.value > @dealer.show_hand.value)
+#		elsif @user_choice == "L" && (@dealer.draw.value < @dealder.show_hand.value)
+#		end
+#	end 
 
 
 end
